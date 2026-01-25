@@ -120,6 +120,9 @@
 	QDEL_NULL(beaker)
 	return ..()
 
+/obj/machinery/reagentgrinder/AltClick(mob/user, modifiers)
+	detach(user)
+
 /obj/machinery/reagentgrinder/ex_act(severity)
 	if(beaker)
 		beaker.ex_act(severity)
@@ -169,9 +172,9 @@
 
 	if((istype(used, /obj/item/reagent_containers) && (used.container_type & OPENCONTAINER)) && user.a_intent != INTENT_HARM)
 		if(beaker)
-			to_chat(user, "<span class='warning'>There's already a container inside.</span>")
+			to_chat(user, SPAN_WARNING("There's already a container inside."))
 		else if(panel_open)
-			to_chat(user, "<span class='warning'>Close the maintenance panel first.</span>")
+			to_chat(user, SPAN_WARNING("Close the maintenance panel first."))
 		else if(user.transfer_item_to(used, src))
 			beaker = used
 			update_icon(UPDATE_ICON_STATE)
@@ -182,7 +185,7 @@
 		if(istype(used, /obj/item/food/grown))
 			var/obj/item/food/grown/G = used
 			if(!G.dry)
-				to_chat(user, "<span class='warning'>You must dry that first!</span>")
+				to_chat(user, SPAN_WARNING("You must dry that first!"))
 				return ITEM_INTERACT_COMPLETE
 
 	if(length(holdingitems) >= limit)
@@ -193,7 +196,7 @@
 	if(istype(used, /obj/item/storage/bag))
 		var/obj/item/storage/bag/B = used
 		if(!length(B.contents))
-			to_chat(user, "<span class='warning'>[B] is empty.</span>")
+			to_chat(user, SPAN_WARNING("[B] is empty."))
 			return ITEM_INTERACT_COMPLETE
 
 		var/original_contents_len = length(B.contents)
@@ -203,17 +206,17 @@
 				B.remove_from_storage(G, src)
 				holdingitems += G
 				if(length(holdingitems) >= limit) // Sanity checking so the blender doesn't overfill
-					to_chat(user, "<span class='notice'>You fill the All-In-One grinder to the brim.</span>")
+					to_chat(user, SPAN_NOTICE("You fill the All-In-One grinder to the brim."))
 					break
 
 		if(length(B.contents) == original_contents_len)
-			to_chat(user, "<span class='warning'>Nothing in [B] can be put into the All-In-One grinder.</span>")
+			to_chat(user, SPAN_WARNING("Nothing in [B] can be put into the All-In-One grinder."))
 			return ITEM_INTERACT_COMPLETE
 
 		else if(!length(B.contents))
-			to_chat(user, "<span class='notice'>You empty all of [B]'s contents into the All-In-One grinder.</span>")
+			to_chat(user, SPAN_NOTICE("You empty all of [B]'s contents into the All-In-One grinder."))
 		else
-			to_chat(user, "<span class='notice'>You empty some of [B]'s contents into the All-In-One grinder.</span>")
+			to_chat(user, SPAN_NOTICE("You empty some of [B]'s contents into the All-In-One grinder."))
 
 		SStgui.update_uis(src)
 		return ITEM_INTERACT_COMPLETE
@@ -222,7 +225,7 @@
 		if(user.a_intent == INTENT_HARM)
 			return ..()
 		else
-			to_chat(user, "<span class='warning'>Cannot refine into a reagent!</span>")
+			to_chat(user, SPAN_WARNING("Cannot refine into a reagent!"))
 			return ITEM_INTERACT_COMPLETE
 
 	if(user.transfer_item_to(used, src))
@@ -334,9 +337,14 @@
 /obj/machinery/reagentgrinder/proc/detach(mob/user)
 	if(!beaker)
 		return
+	if(!Adjacent(user))
+		return
 	if(HAS_TRAIT(user, TRAIT_HANDS_BLOCKED))
 		return
-	beaker.forceMove(loc)
+	beaker.forceMove(get_turf(src))
+	SStgui.update_uis(src)
+	if(!issilicon(user) && (!user.get_active_hand() || !user.get_inactive_hand()))
+		user.put_in_hands(beaker)
 	beaker = null
 	update_icon(UPDATE_ICON_STATE)
 	SStgui.update_uis(src)

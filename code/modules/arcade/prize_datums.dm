@@ -16,7 +16,7 @@ GLOBAL_DATUM_INIT(global_prizes, /datum/prizes, new())
 
 	new item.typepath(prize_counter.loc)
 	prize_counter.tickets -= item.cost
-	to_chat(usr, "<span class='notice'>Enjoy your prize!</span>")
+	to_chat(usr, SPAN_NOTICE("Enjoy your prize!"))
 	playsound(prize_counter, 'sound/machines/machine_vend.ogg', 50, TRUE)
 
 //////////////////////////////////////
@@ -394,6 +394,12 @@ GLOBAL_DATUM_INIT(global_prizes, /datum/prizes, new())
 	desc = "A full-scale model chainsaw, based on that massacre in Space Texas."
 	typepath = /obj/item/toy/chainsaw
 	cost = 200
+
+/datum/prize_item/round_tuit
+	name = "Round Tuit"
+	desc = "Just think of all the things you could do, if you carried a round tuit with you."
+	typepath = /obj/item/toy/round_tuit/colorful
+	cost = 1000
 
 /datum/prize_item/bike
 	name = "Awesome Bike!"

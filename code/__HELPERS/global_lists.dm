@@ -31,6 +31,8 @@
 	__init_body_accessory(/datum/body_accessory/tail)
 	// Different wings
 	__init_body_accessory(/datum/body_accessory/wing)
+	// Different spines
+	__init_body_accessory(/datum/body_accessory/spines)
 
 	// Setup species:accessory relations
 	initialize_body_accessory_by_species()
@@ -70,7 +72,7 @@
 		var/datum/pai_software/P = new type()
 		if(GLOB.pai_software_by_key[P.id])
 			var/datum/pai_software/O = GLOB.pai_software_by_key[P.id]
-			to_chat(world, "<span class='warning'>pAI software module [P.name] has the same key as [O.name]!</span>")
+			to_chat(world, SPAN_WARNING("pAI software module [P.name] has the same key as [O.name]!"))
 			continue
 		GLOB.pai_software_by_key[P.id] = P
 
