@@ -242,6 +242,6 @@
 	update_icon(UPDATE_ICON_STATE|UPDATE_OVERLAYS)
 
 /obj/item/stack/cable_coil/random/rcl_spool
-	rcl_spool = TRUE
+	destroy_upon_empty = FALSE
 	max_amount = RCL_MAX_SPOOL_SIZE
 	amount = RCL_MAX_SPOOL_SIZE
