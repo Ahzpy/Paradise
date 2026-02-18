@@ -1,6 +1,6 @@
 /turf/simulated/wall/mineral
 	name = "mineral wall"
-	desc = "If you can see this, please make an issue report on GitHub."
+	desc = ABSTRACT_TYPE_DESC
 	icon_state = ""
 	canSmoothWith = null
 	var/last_event = 0
@@ -40,6 +40,7 @@
 	explosion_block = 3
 	smoothing_groups = list(SMOOTH_GROUP_SIMULATED_TURFS, SMOOTH_GROUP_WALLS, SMOOTH_GROUP_DIAMOND_WALLS)
 	canSmoothWith = list(SMOOTH_GROUP_AIRLOCK, SMOOTH_GROUP_DIAMOND_WALLS)
+	rust_resistance = RUST_RESISTANCE_REINFORCED
 
 /turf/simulated/wall/mineral/bananium
 	name = "bananium wall"
@@ -71,6 +72,7 @@
 	sheet_type = /obj/item/stack/sheet/mineral/uranium
 	smoothing_groups = list(SMOOTH_GROUP_SIMULATED_TURFS, SMOOTH_GROUP_WALLS, SMOOTH_GROUP_URANIUM_WALLS)
 	canSmoothWith = list(SMOOTH_GROUP_AIRLOCK, SMOOTH_GROUP_URANIUM_WALLS)
+	rust_resistance = RUST_RESISTANCE_REINFORCED
 
 /turf/simulated/wall/mineral/uranium/Initialize(mapload)
 	. = ..()
@@ -190,6 +192,7 @@
 	explosion_block = 3
 	smoothing_groups = list(SMOOTH_GROUP_SIMULATED_TURFS, SMOOTH_GROUP_WALLS, SMOOTH_GROUP_ABDUCTOR_WALLS)
 	canSmoothWith = list(SMOOTH_GROUP_AIRLOCK, SMOOTH_GROUP_ABDUCTOR_WALLS)
+	rust_resistance = RUST_RESISTANCE_ORGANIC
 
 /////////////////////Titanium walls/////////////////////
 
@@ -205,6 +208,14 @@
 	sheet_type = /obj/item/stack/sheet/mineral/titanium
 	smoothing_groups = list(SMOOTH_GROUP_TITANIUM_WALLS, SMOOTH_GROUP_WINDOW_FULLTILE_SHUTTLE)
 	canSmoothWith = list(SMOOTH_GROUP_AIRLOCK, SMOOTH_GROUP_TITANIUM_WALLS, SMOOTH_GROUP_SHUTTLE_PARTS, SMOOTH_GROUP_WINDOW_FULLTILE_SHUTTLE)
+	rust_resistance = RUST_RESISTANCE_TITANIUM
+
+/turf/simulated/wall/mineral/titanium/magic_rust_turf()
+	if(HAS_TRAIT(src, TRAIT_RUSTY))
+		ChangeTurf(/turf/simulated/wall)
+		rust_turf() //Not magic rusting intentionally
+		return
+	return ..()
 
 /turf/simulated/wall/mineral/titanium/copyTurf(turf/T)
 	. = ..()
@@ -245,6 +256,14 @@
 	sheet_type = /obj/item/stack/sheet/mineral/plastitanium
 	smoothing_groups = list(SMOOTH_GROUP_PLASTITANIUM_WALLS)
 	canSmoothWith = list(SMOOTH_GROUP_AIRLOCK, SMOOTH_GROUP_PLASTITANIUM_WALLS, SMOOTH_GROUP_SHUTTLE_PARTS)
+	rust_resistance = RUST_RESISTANCE_TITANIUM
+
+/turf/simulated/wall/mineral/plastitanium/magic_rust_turf()
+	if(HAS_TRAIT(src, TRAIT_RUSTY))
+		ChangeTurf(/turf/simulated/wall)
+		rust_turf() //Not magic rusting intentionally
+		return
+	return ..()
 
 /turf/simulated/wall/mineral/plastitanium/copyTurf(turf/T)
 	. = ..()
