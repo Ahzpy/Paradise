@@ -360,7 +360,7 @@
 /turf/simulated/floor/mineral/plastitanium,
 /area/shuttle/trade/sol)
 "Le" = (
-/turf/simulated/wall/mineral/titanium/survival/nodiagonal,
+/turf/simulated/wall/mineral/titanium/survival,
 /area/shuttle/trade/sol)
 "Lk" = (
 /obj/effect/turf_decal/siding{
