@@ -291,7 +291,7 @@
 	else
 		close()
 
-/obj/machinery/door/airlock/proc/get_current_direction()
+/obj/machinery/door/firedoor/proc/get_current_direction()
 	for(var/direction in GLOB.cardinal)
 		if(iswallturf(get_step(src, direction)) || (locate(/obj/machinery/door) in get_step(src, direction)) || (locate(/obj/structure/window/full) in get_step(src, direction)))
 			return direction
