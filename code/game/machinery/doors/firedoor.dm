@@ -253,6 +253,9 @@
 	update_icon()
 
 /obj/machinery/door/firedoor/open()
+	var/direction = get_current_direction()
+	dir = direction ? direction : NORTH
+	update_icon()
 	if(welded)
 		return
 	. = ..()
@@ -262,6 +265,9 @@
 
 /obj/machinery/door/firedoor/close()
 	. = ..()
+	var/direction = get_current_direction()
+	dir = direction ? direction : NORTH
+	update_icon()
 	latetoggle()
 
 /obj/machinery/door/firedoor/autoclose()
@@ -284,6 +290,11 @@
 		open()
 	else
 		close()
+
+/obj/machinery/door/airlock/proc/get_current_direction()
+	for(var/direction in GLOB.cardinal)
+		if(iswallturf(get_step(src, direction)) || (locate(/obj/machinery/door) in get_step(src, direction)) || (locate(/obj/structure/window/full) in get_step(src, direction)))
+			return direction
 
 /obj/machinery/door/firedoor/deconstruct(disassembled = TRUE)
 	if(!(flags & NODECONSTRUCT))
