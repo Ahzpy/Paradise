@@ -295,8 +295,15 @@
 		close()
 
 /obj/machinery/door/firedoor/proc/get_current_direction()
+	// Prioritize walls to avoid emergency shuttle shenanigans
 	for(var/direction in GLOB.cardinal)
-		if(iswallturf(get_step(src, direction)) || (locate(/obj/machinery/door) in get_step(src, direction)) || (locate(/obj/structure/window/full) in get_step(src, direction)))
+		if(iswallturf(get_step(src, direction)))
+			return direction
+	for(var/direction in GLOB.cardinal)
+		if((locate(/obj/structure/window/full) in get_step(src, direction)))
+			return direction
+	for(var/direction in GLOB.cardinal)
+		if((locate(/obj/machinery/door) in get_step(src, direction)))
 			return direction
 
 /obj/machinery/door/firedoor/deconstruct(disassembled = TRUE)
