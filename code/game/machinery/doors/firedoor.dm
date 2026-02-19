@@ -38,6 +38,9 @@
 /obj/machinery/door/firedoor/Initialize(mapload)
 	. = ..()
 	CalculateAffectingAreas()
+	var/direction = get_current_direction()
+	dir = direction ? direction : NORTH
+	update_icon()
 
 /obj/machinery/door/firedoor/examine(mob/user)
 	. = ..()
