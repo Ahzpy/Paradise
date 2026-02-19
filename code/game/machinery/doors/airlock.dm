@@ -959,6 +959,7 @@ GLOBAL_LIST_EMPTY(airlock_emissive_underlays)
 /obj/machinery/door/airlock/proc/open_close(mob/user)
 	var/direction = get_current_direction()
 	dir = direction ? direction : NORTH
+	update_icon()
 	if(welded)
 		to_chat(user, SPAN_WARNING("The airlock has been welded shut!"))
 		return FALSE
@@ -969,7 +970,6 @@ GLOBAL_LIST_EMPTY(airlock_emissive_underlays)
 		return open()
 	else
 		return close()
-	update_icon()
 
 /obj/machinery/door/airlock/proc/get_current_direction()
 	for(var/direction in GLOB.cardinal)
